@@ -2,6 +2,8 @@ import { useState } from "react";
 import { ScrollView, Text } from "react-native";
 import { PARTNERS } from "./../shared/partners";
 import { Avatar, Card, ListItem } from "react-native-elements";
+import { useSelector } from "react-redux";
+import { baseUrl } from "../shared/baseUrl";
 
 const AboutScreen = () => {
   const [partners, setpartners] = useState(PARTNERS);
