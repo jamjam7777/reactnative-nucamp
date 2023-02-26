@@ -94,14 +94,14 @@ const CampsiteInfoScreen = ({ route }) => {
             leftIcon={{ type: "font-awesome", name: "user-o" }}
             leftIconContainerStyle={{ paddingRight: 10 }}
             onChangeText={(author) => setAuthor(author)}
-            startingvalue={item.rating}
+            startingValue={item.rating}
           />
           <Input
             placeholder="Comment"
             leftIcon={{ type: "font-awesome", name: "comment-o" }}
             leftIconContainerStyle={{ paddingRight: 10 }}
             onChangeText={(comment) => setText(comment)}
-            startingvalue={item.rating}
+            startingValue={item.rating}
           />
           <View style={{ margin: 10 }}>
             <Button
