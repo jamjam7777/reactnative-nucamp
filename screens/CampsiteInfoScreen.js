@@ -39,16 +39,13 @@ const CampsiteInfoScreen = ({ route }) => {
         <Text style={{ fontSize: 14 }}>{item.text}</Text>
         <Rating
           style={{
-            fontSize: 12,
-            alignItems: "flext-start",
+            alignItems: "flex-start",
             paddingVertical: "5%",
           }}
           readonly
-          startingValue={rating}
+          startingValue={item.rating}
           imageSize={10}
-        >
-          {item.rating} Stars
-        </Rating>
+        ></Rating>
         <Text style={{ fontSize: 12 }}>{`--${item.author}, ${item.date}`}</Text>
       </View>
     );
@@ -97,12 +94,14 @@ const CampsiteInfoScreen = ({ route }) => {
             leftIcon={{ type: "font-awesome", name: "user-o" }}
             leftIconContainerStyle={{ paddingRight: 10 }}
             onChangeText={(author) => setAuthor(author)}
+            value={author}
           />
           <Input
             placeholder="Comment"
             leftIcon={{ type: "font-awesome", name: "comment-o" }}
             leftIconContainerStyle={{ paddingRight: 10 }}
             onChangeText={(comment) => setText(comment)}
+            value={text}
           />
           <View style={{ margin: 10 }}>
             <Button
