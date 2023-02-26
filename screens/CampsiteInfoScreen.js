@@ -11,9 +11,9 @@ const CampsiteInfoScreen = ({ route }) => {
   const comments = useSelector((state) => state.comments);
   const favorites = useSelector((state) => state.favorites);
   const [showModal, setShowModal] = useState(false);
-  const [author, setAuthor] = useState();
+  const [author, setAuthor] = useState("");
   const [rating, setRating] = useState(5);
-  const [text, setText] = useState();
+  const [text, setText] = useState("");
   const dispatch = useDispatch();
 
   const handleSubmit = () => {
@@ -28,9 +28,9 @@ const CampsiteInfoScreen = ({ route }) => {
   };
 
   const resetForm = () => {
-    setAuthor(false);
-    setRating(0);
-    setText(false);
+    setAuthor("");
+    setRating(5);
+    setText("");
   };
 
   const renderCommentItem = ({ item }) => {
@@ -97,21 +97,18 @@ const CampsiteInfoScreen = ({ route }) => {
             leftIcon={{ type: "font-awesome", name: "user-o" }}
             leftIconContainerStyle={{ paddingRight: 10 }}
             onChangeText={(author) => setAuthor(author)}
-          >
-            Author
-          </Input>
+          />
           <Input
             placeholder="Comment"
             leftIcon={{ type: "font-awesome", name: "comment-o" }}
             leftIconContainerStyle={{ paddingRight: 10 }}
             onChangeText={(comment) => setText(comment)}
-          >
-            Comment
-          </Input>
+          />
           <View style={{ margin: 10 }}>
             <Button
               onPress={() => {
                 handleSubmit();
+                resetForm();
               }}
               color="#5637DD"
               title="Submit"
@@ -120,7 +117,7 @@ const CampsiteInfoScreen = ({ route }) => {
           <View style={{ margin: 10 }}>
             <Button
               onPress={() => {
-                handleSubmit();
+                setShowModal(!showModal);
                 resetForm();
               }}
               color="#808080"
