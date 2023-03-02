@@ -15,40 +15,45 @@ const RenderCampsite = (props) => {
     onStartShouldSetPanResponder: () => true,
     onPanResponderGrant: () => {
       view.current
-          .rubberBand(1000)
-          .then((endState) => console.log(endState.finished? 'finished' : 'canceled'))
+        .rubberBand(1000)
+        .then((endState) =>
+          console.log(endState.finished ? "finished" : "canceled")
+        );
     },
     onPanResponderEnd: (e, gestureState) => {
-      console.log('pan responder end', gestureState);
+      console.log("pan responder end", gestureState);
       if (isLeftSwipe(gestureState)) {
         Alert.alert(
-          'Add Favorite',
-          'Are you sure you wish to add ' + campsite.name + ' to favorites?' ,
+          "Add Favorite",
+          "Are you sure you wish to add " + campsite.name + " to favorites?",
           [
             {
-                text: 'Cancel',
-                style: 'cancel',
-                onPress: () => console.log('Cancel Pressed')
+              text: "Cancel",
+              style: "cancel",
+              onPress: () => console.log("Cancel Pressed"),
             },
             {
-                text: 'OK',
-                onPress: () =>
-                    props.isFavorite
-                        ? console.log('Already set as a favorite')
-                        : props.markFavorite()
-            }
-        ],
-        { cancelable: false }
-    );
+              text: "OK",
+              onPress: () =>
+                props.isFavorite
+                  ? console.log("Already set as a favorite")
+                  : props.markFavorite(),
+            },
+          ],
+          { cancelable: false }
+        );
       }
-    }
-  })
+    },
+  });
 
   if (campsite) {
     return (
-      <Animatable.View animation="fadeInDownBig" duration={2000} delay={1000}
-      ref={view}
-      {...panResponder.panHandlers}
+      <Animatable.View
+        animation="fadeInDownBig"
+        duration={2000}
+        delay={1000}
+        ref={view}
+        {...panResponder.panHandlers}
       >
         <Card containerStyle={styles.cardContainer}>
           <Card.Image source={{ uri: baseUrl + campsite.image }}>
@@ -87,22 +92,37 @@ const RenderCampsite = (props) => {
 };
 
 const styles = StyleSheet.create({
-  // padding: 0,
-  // margin: 0,
-  // marginbottom: 20,
+  cardContainer: {
+    padding: 0,
+
+    margin: 0,
+
+    marginBottom: 20,
+  },
+
   cardRow: {
     alignItems: "center",
+
     justifyContent: "center",
+
     flex: 1,
+
     flexDirection: "row",
+
     margin: 20,
   },
+
   cardText: {
     textShadowColor: "rgba(0, 0, 0, 1)",
+
     textShadowOffset: { width: -1, height: 1 },
+
     textShadowRadius: 20,
+
     textAlign: "center",
+
     color: "white",
+
     fontSize: 20,
   },
 });
