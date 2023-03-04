@@ -9,9 +9,10 @@ const RenderCampsite = (props) => {
 
   const view = useRef();
 
-  const isRightSwipe= ({ dx }) => dx < -200;
 
   const isLeftSwipe = ({ dx }) => dx < -200;
+
+  const isRightSwipe= ({ dx }) => dx > 200;
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
@@ -24,7 +25,7 @@ const RenderCampsite = (props) => {
     },
     onPanResponderEnd: (e, gestureState) => {
       console.log("pan responder end", gestureState);
-      if (isLeftSwipe(gestureState), isRightSwipe(gestureState)) {
+      if (isLeftSwipe(gestureState)) {
         Alert.alert(
           "Add Favorite",
           "Are you sure you wish to add " + campsite.name + " to favorites?",
@@ -43,7 +44,9 @@ const RenderCampsite = (props) => {
             },
           ],
           { cancelable: false }
-        )
+        );
+    } else if (isRightSwipe(gestureState)) {
+      props.onShowModal();
     }
   }
   });

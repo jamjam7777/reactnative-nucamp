@@ -29,7 +29,32 @@ const ReservationScreen = () => {
     console.log("campers:", campers);
     console.log("hikeIn:", hikeIn);
     console.log("date:", date);
-    setShowModal(!showModal);
+
+    const message=`Number of Campers: ${campers}
+    \nHike-In? ${hikeIn ? "Yes": "No"}
+    \nDate: ${date}`
+    Alert.alert(
+      "Begin Search?",
+      message,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+          onPress: () => {
+            console.log('Cancel Pressed'),
+            resetForm()
+          }
+        },
+        {
+          text: 'OK',
+          onPress: () => {
+            console.log('Cancel Pressed'),
+            resetForm()
+          },
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   const resetForm = () => {
@@ -39,30 +64,6 @@ const ReservationScreen = () => {
     setShowCalendar(false);
   };
 
-  const submitAlert = () => {
-    Alert.alert(
-      "Begin Search?",
-      "Number of Campers: " + setCampers,
-      "Hike-In? " + setHikeIn,
-      "Date: " + setDate,
-      [
-        {
-          text: "Cancel",
-          onPress: () => {
-            resetForm();
-          },
-          style: "cancel",
-        },
-        {
-          text: "OK",
-          onPress: () => {
-            resetForm();
-          },
-        },
-      ],
-      { cancelable: false }
-    );
-  };
 
   return (
     <ScrollView>
@@ -117,13 +118,12 @@ const ReservationScreen = () => {
             accessibilityLabel="Tap me to search for available campsites to reserve"
           />
         </View>
-        <View>
-          <Button title={"submitAlert"} onPress={submitAlert} />
-        </View>
       </Animatable.View>
     </ScrollView>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   formRow: {
