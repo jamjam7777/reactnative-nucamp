@@ -4,6 +4,7 @@ import { CheckBox, Input, Button, Icon } from "react-native-elements";
 import * as SecureStore from "expo-secure-store";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
 import { baseUrl } from '../shared/baseUrl';
 import logo from '../assets/images/logo.png';
 
@@ -148,10 +149,26 @@ const RegisterTab = () => {
       });
       if (!capturedImage.cancelled) {
         console.log(capturedImage);
-        setImageUrl(capturedImage.uri);
+        processImage(capturedImage.uri);
       }
     }
-  }
+  };
+
+  const processImage = async (imgUri) => {
+    const processedImage = await ImageManipulator.manipulateAsync(
+            image.localUri || image.uri,
+              {width: 400},
+      {format: SaveFormat.PNG }
+    );
+    console.log(processedImage);
+    setImageUrl(processedImage.uri);
+    
+    return (
+      processedImage(imgUri)
+    )
+    
+
+  };
 
   return (
     <ScrollView>
