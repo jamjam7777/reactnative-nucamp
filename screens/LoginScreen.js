@@ -156,7 +156,7 @@ const RegisterTab = () => {
 
   const processImage = async (imgUri) => {
     const processedImage = await ImageManipulator.manipulateAsync(
-            image.localUri || image.uri,
+            image.localUri || image.uri ,
               {width: 400},
       {format: SaveFormat.PNG }
     );
@@ -170,6 +170,22 @@ const RegisterTab = () => {
 
   };
 
+  const getImageFromGallery = async () => {
+    const mediaLibraryPermissions =
+    await ImagePicker.requestCameraPermissionsAsync();
+
+    if (cameraPermission.status === 'granted') {
+      const capturedImage = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true, 
+        aspect: [1, 1]
+      });
+      if (!capturedImage.cancelled) {
+        console.log(capturedImage);
+        processImage(capturedImage.uri);
+      }
+    }
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -180,6 +196,7 @@ const RegisterTab = () => {
           style={styles.image}
           />
           <Button title="Camera" onPress={getImageFromCamera} />
+          <Button title="Gallery" onPress={getImageFromGallery}/>
         </View>
         <Input
           placeholder="Username"
@@ -228,6 +245,7 @@ const RegisterTab = () => {
           onPress={() => setRemember(!remember)}
           containerStyle={styles.formCheckbox}
         />
+        <View style={{ flexDirection:"row" }}>
         <View style={styles.formButton}>
           <Button
             onPress={() => handleRegister()}
@@ -243,6 +261,24 @@ const RegisterTab = () => {
             }
             buttonStyle={{ backgroundColor: "#5637DD" }}
           />
+          </View>
+          <View style={styles.formButton}>
+          <Button
+            onPress={() => handleRegister()}
+            title="Gallery"
+            color="#5637DD"
+            icon={
+              <Icon
+                name="file-photo-o"
+                type="font-awesome"
+                color="#fff"
+                iconStyle={{ marginRight: 10 }}
+              />
+            }
+            buttonStyle={{ backgroundColor: "#5637DD" }}
+          />
+          </View>
+        
         </View>
       </View>
     </ScrollView>
@@ -304,9 +340,10 @@ const styles = StyleSheet.create({
     backgroundColor: null,
   },
   formButton: {
-    margin: 20,
+    margin: 50,
     marginRight: 40,
-    marginLeft: 40
+    marginLeft: 10,
+    width: 150,
   },
   imageContainer: {
     flex: 1,
