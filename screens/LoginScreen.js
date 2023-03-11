@@ -5,6 +5,7 @@ import * as SecureStore from "expo-secure-store";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as ImagePicker from 'expo-image-picker';
 import * as ImageManipulator from 'expo-image-manipulator';
+import * as MediaLibrary from "expo-media-library";
 import { baseUrl } from '../shared/baseUrl';
 import logo from '../assets/images/logo.png';
 
@@ -156,25 +157,20 @@ const RegisterTab = () => {
 
   const processImage = async (imgUri) => {
     const processedImage = await ImageManipulator.manipulateAsync(
-            image.localUri || image.uri ,
-              {width: 400},
-      {format: SaveFormat.PNG }
-    );
+      imgUri, 
+      [{ resize: { width: 400 } }], 
+      {format: ImageManipulator.SaveFormat.PNG,
+    });
     console.log(processedImage);
+    MediaLibrary.saveToLibraryAsync(processedImage.uri);
     setImageUrl(processedImage.uri);
-    
-    return (
-      processedImage(imgUri)
-    )
-    
-
   };
 
   const getImageFromGallery = async () => {
     const mediaLibraryPermissions =
     await ImagePicker.requestCameraPermissionsAsync();
 
-    if (cameraPermission.status === 'granted') {
+    if (mediaLibraryPermissions.status === 'granted') {
       const capturedImage = await ImagePicker.launchImageLibraryAsync({
         allowsEditing: true, 
         aspect: [1, 1]
@@ -245,7 +241,6 @@ const RegisterTab = () => {
           onPress={() => setRemember(!remember)}
           containerStyle={styles.formCheckbox}
         />
-        <View style={{ flexDirection:"row" }}>
         <View style={styles.formButton}>
           <Button
             onPress={() => handleRegister()}
@@ -262,25 +257,7 @@ const RegisterTab = () => {
             buttonStyle={{ backgroundColor: "#5637DD" }}
           />
           </View>
-          <View style={styles.formButton}>
-          <Button
-            onPress={() => handleRegister()}
-            title="Gallery"
-            color="#5637DD"
-            icon={
-              <Icon
-                name="file-photo-o"
-                type="font-awesome"
-                color="#fff"
-                iconStyle={{ marginRight: 10 }}
-              />
-            }
-            buttonStyle={{ backgroundColor: "#5637DD" }}
-          />
-          </View>
-        
         </View>
-      </View>
     </ScrollView>
   );
 };
@@ -340,10 +317,9 @@ const styles = StyleSheet.create({
     backgroundColor: null,
   },
   formButton: {
-    margin: 50,
+    margin: 20,
     marginRight: 40,
-    marginLeft: 10,
-    width: 150,
+    marginLeft: 40,
   },
   imageContainer: {
     flex: 1,
